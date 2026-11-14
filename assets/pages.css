@@ -39,3 +39,25 @@ html[data-theme="warm"] :is(input,textarea)::placeholder {color:#9b8a70!importan
 html[data-theme="night"] :is(input,textarea)::placeholder {color:#8ba3b3!important;}
 html[data-theme="night"] ::selection {background:#9a7841!important;color:#fff4e5!important;}
 html[data-theme="warm"] ::selection {background:#e0b96a!important;color:#4b341c!important;}
+
+/* V16 · browser-local reading progress on static GitHub Pages. */
+.panda-card-progress {margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
+.panda-card-progress-line {display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px;}
+.panda-card-progress-label {font-weight:700;font-size:11px;color:#627594;}
+.panda-card-progress-action {background:#eef3fc;border:1px solid #d7e4f5;color:#4263a2;border-radius:6px;padding:5px 9px;font-size:10px;font-weight:700;}
+.panda-progress-track {height:7px;border-radius:20px;background:#e5ebf5;overflow:hidden;}
+.panda-progress-fill {height:100%;width:0%;background:#567dda;border-radius:20px;transition:width .25s ease;}
+.panda-card-progress[data-read-status=done] .panda-progress-fill {background:#289578;}
+.panda-card-progress[data-read-status=done] .panda-card-progress-label {color:#278469;}
+.panda-reading-toolbar {display:flex;justify-content:space-between;align-items:center;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:9px;background:#f7f9fd;margin:14px 0 22px;}
+.panda-reading-toolbar-info {display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:12px;}
+.panda-reading-toolbar-status {font-weight:700;color:#5174ab;}
+.panda-reading-toolbar-actions {display:flex;gap:8px;flex-wrap:wrap;}
+.panda-reading-toolbar-actions button {width:auto;min-height:auto;background:#fff;color:#3f63a2;border:1px solid #d6e0f2;border-radius:6px;padding:7px 10px;font-size:11px;}
+.panda-reading-toolbar-actions button:disabled {opacity:.55;cursor:default;}
+.panda-reading-toolbar[data-read-status=done] {background:#f0faf5;}
+html[data-theme=warm] .panda-reading-toolbar,html[data-theme=warm] .panda-card-progress-action{background:#fff1d8;color:#6b4d2e;border-color:#d1b99a;}
+html[data-theme=night] .panda-reading-toolbar,html[data-theme=night] .panda-card-progress-action{background:#283a46;color:#d6e5f2;border-color:#4c6271;}
+html[data-theme=night] .panda-progress-track {background:#3d5261;}
+html[data-theme=night] .panda-card-progress-label,html[data-theme=night] .panda-reading-toolbar-status {color:#c5d5e3;}
+@media(max-width:600px){.panda-reading-toolbar{flex-wrap:wrap;}.panda-reading-toolbar-actions{width:100%;}}

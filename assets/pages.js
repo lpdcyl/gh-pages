@@ -86,6 +86,7 @@
       .filter(Boolean).forEach(s=>tags.append(el('span','tag',s)));
     a.append(tags, el('div','date',(row.updated_at || '').slice(0,10)));
     card.append(a);
+    if (window.PandaReadingProgress) card.append(window.PandaReadingProgress.card(row.type,row.id));
     if (safeGitHub(row.github_url)) {
       const gh = link(row.github_url, 'github', 'github');
       gh.target = '_blank'; gh.rel = 'noopener noreferrer'; card.append(gh);
@@ -112,8 +113,8 @@
     }));
     updateFilters();
     const q=$('search').value.trim().toLowerCase(), kind=$('kind').value,
-      topic=$('topic').value, year=$('year').value;
-    const found=allCards.filter(x=>(!kind||x.type===kind)&&(!topic||x.topic===topic)&&(!year||x.year===year)&&
+      topic=$('topic').value, year=$('year').value, readState=$('read-state').value;
+    const found=allCards.filter(x=>(!kind||x.type===kind)&&(!topic||x.topic===topic)&&(!year||x.year===year)&&(!readState||window.PandaReadingProgress?.progressState(x.type,x.id)===readState)&&
       (!q||[x.title,x.abstract,x.topic,x.research_topic,x.venue,x.year].join(' ').toLowerCase().includes(q)));
     $('cards').replaceChildren();
     if (!found.length) $('cards').append(el('div','empty','暂无符合条件的内容。'));
@@ -154,6 +155,7 @@
       pdf.addEventListener('click',()=>openPDF(card,pdf));hero.append(pdf);
     }
     root.append(hero);
+    window.PandaReadingProgress?.mount({kind:card.type,id:card.id,root,after:hero});
     if (card.type==='paper') {
       for(const q of (data.qa||[])){
         const box=section(root,`Q${q.id || '?'} · ${q.question || ''}`);
@@ -236,7 +238,8 @@
     const type=new URLSearchParams(location.search).get('type');
     if(['paper','note','review'].includes(type))$('kind').value=type;
     renderHome();
-    ['search','kind','topic','year'].forEach(id=>$(id).addEventListener('input',renderHome));
+    ['search','kind','topic','year','read-state'].forEach(id=>$(id).addEventListener('input',renderHome));
+    window.addEventListener('panda:reading-progress-change',()=>{if($('read-state').value)renderHome();});
     const feedback=$('unlock-message');
     feedback.textContent=secret?'已解锁：可查看私密卡片。':'公开内容可直接阅读；私密内容需要密码。';
     $('unlock-form').addEventListener('submit',async event=>{
