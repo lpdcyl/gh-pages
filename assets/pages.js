@@ -86,11 +86,13 @@
       .filter(Boolean).forEach(s=>tags.append(el('span','tag',s)));
     a.append(tags, el('div','date',(row.updated_at || '').slice(0,10)));
     card.append(a);
-    if (window.PandaReadingProgress) card.append(window.PandaReadingProgress.card(row.type,row.id));
+    const external=el('div','card-external');
     if (safeGitHub(row.github_url)) {
       const gh = link(row.github_url, 'github', 'github');
-      gh.target = '_blank'; gh.rel = 'noopener noreferrer'; card.append(gh);
+      gh.target = '_blank'; gh.rel = 'noopener noreferrer'; external.append(gh);
     }
+    card.append(external);
+    if (window.PandaReadingProgress) card.append(window.PandaReadingProgress.card(row.type,row.id));
     return card;
   }
   function optionList(id, values, allLabel) {
